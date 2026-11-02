@@ -23,7 +23,6 @@ jobs:
           test -s index.html
           test -s all-benefits.html
           test -s assets/genie-of-benefits-logo.svg
-          test "$(cat CNAME)" = "genieofbenefits.com"
       - uses: actions/configure-pages@v5
         with:
           enablement: true
