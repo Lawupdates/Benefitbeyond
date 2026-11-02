@@ -1,5 +1,5 @@
-# BenefitBeyond™
-**More than SSDI. More possibilities.**
+# Genie of Benefits™
+**Your wish for more benefits starts here.**
 
 A vibrant, mobile-first resource explorer for disability-related benefits, money-saving programs and everyday budget tips.
 
