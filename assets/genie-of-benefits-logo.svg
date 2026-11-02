@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 220" role="img" aria-labelledby="title desc">
+<title id="title">Genie of Benefits trademark</title><desc id="desc">Luxurious gold lamp with turquoise magic and large bright blue and gold lettering on a dark background</desc>
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071530"/><stop offset=".55" stop-color="#102352"/><stop offset="1" stop-color="#250d5c"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff6b5"/><stop offset=".38" stop-color="#ffd957"/><stop offset=".7" stop-color="#ff9e18"/><stop offset="1" stop-color="#a84c0a"/></linearGradient>
+ <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".38" stop-color="#bdfcff"/><stop offset="1" stop-color="#24c9ff"/></linearGradient>
+ <filter id="glow" x="-30%" y="-40%" width="160%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+ <filter id="shadow" x="-20%" y="-30%" width="150%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#01051b" flood-opacity=".9"/></filter>
+</defs>
+<rect x="2" y="2" width="1036" height="216" rx="38" fill="url(#bg)" stroke="#ffe18b" stroke-opacity=".5" stroke-width="3"/>
+<path d="M132 60 C154 12 219 18 225 53 C230 86 165 85 151 106" fill="none" stroke="#15e9f8" stroke-width="16" opacity=".45" filter="url(#glow)"/>
+<path d="M126 61 C151 18 201 31 206 53 C208 75 171 76 159 100" fill="none" stroke="#6ffff0" stroke-width="6" stroke-linecap="round"/>
+<g transform="translate(17 29)" filter="url(#shadow)" stroke="#70360e" stroke-width="2">
+ <ellipse cx="93" cy="143" rx="66" ry="10" fill="#8c3f12"/>
+ <path d="M63 138 Q82 120 75 109 H111 Q104 121 124 138Z" fill="url(#gold)"/>
+ <path d="M49 77 Q31 47 51 40 Q74 31 77 65" fill="none" stroke="url(#gold)" stroke-width="14"/>
+ <path d="M55 74 Q93 62 151 75 Q139 111 100 119 Q60 112 55 74Z" fill="url(#gold)"/>
+ <path d="M138 78 Q159 68 184 66 Q173 81 147 91" fill="url(#gold)"/>
+ <path d="M77 68 Q98 51 126 65" fill="none" stroke="#fff0a0" stroke-width="5"/>
+ <ellipse cx="99" cy="76" rx="10" ry="8" fill="#4ce9fa" stroke="#fff2b2" stroke-width="3"/>
+ <path d="M78 46 H114 L107 34 H86Z" fill="url(#gold)"/><circle cx="97" cy="30" r="6" fill="#fff0a3"/>
+</g>
+<g font-family="DejaVu Sans,Arial,sans-serif" font-weight="900" filter="url(#shadow)" letter-spacing="-3">
+ <text x="230" y="142" font-size="99" fill="url(#blue)" stroke="#10215a" stroke-width="2" paint-order="stroke">Genie</text>
+ <text x="531" y="142" font-size="56" fill="#ffffff" letter-spacing="-1">of</text>
+ <text x="605" y="142" font-size="86" fill="url(#gold)" stroke="#623500" stroke-width="2" paint-order="stroke">Benefits</text>
+ <text x="977" y="92" font-size="25" fill="#ffe9a3" letter-spacing="0">™</text>
+</g>
+<path d="M245 162 Q540 187 949 159" fill="none" stroke="url(#gold)" stroke-width="5" stroke-linecap="round"/>
+<g fill="#fff3ae"><path d="M214 30 l5 13 13 5 -13 5 -5 13 -5 -13 -13 -5 13 -5Z"/><path d="M979 165 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4Z"/></g>
+</svg>
