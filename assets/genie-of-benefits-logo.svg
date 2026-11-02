@@ -7,7 +7,7 @@
  <filter id="glow" x="-30%" y="-40%" width="160%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
  <filter id="shadow" x="-20%" y="-30%" width="150%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#01051b" flood-opacity=".9"/></filter>
 </defs>
-<rect x="2" y="2" width="1036" height="216" rx="38" fill="url(#bg)" stroke="#ffe18b" stroke-opacity=".5" stroke-width="3"/>
+
 <path d="M132 60 C154 12 219 18 225 53 C230 86 165 85 151 106" fill="none" stroke="#15e9f8" stroke-width="16" opacity=".45" filter="url(#glow)"/>
 <path d="M126 61 C151 18 201 31 206 53 C208 75 171 76 159 100" fill="none" stroke="#6ffff0" stroke-width="6" stroke-linecap="round"/>
 <g transform="translate(17 29)" filter="url(#shadow)" stroke="#70360e" stroke-width="2">
