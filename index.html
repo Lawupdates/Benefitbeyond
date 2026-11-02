@@ -38,7 +38,7 @@ let active=false;const compact=window.matchMedia('(max-width: 680px)');
 const metals=["#f3b61d","#15d1e8","#e854ab","#b98bff","#62d965","#fb6c58","#c5d0df","#3b98ff"];
 function burst(count=125){
  if(reduce.matches||active)return;
- active=true;fx.replaceChildren();count=Math.min(count,compact.matches?28:65);
+ active=true;fx.replaceChildren();count=Math.min(count,compact.matches?65:115);
  const fragment=document.createDocumentFragment();
  for(let i=0;i<count;i++){
   const el=document.createElement("i");el.textContent=i%7===0?"✦":i%9===0?"◆":"$";
@@ -68,6 +68,6 @@ function searchFor(term){
 }
 document.querySelectorAll("[data-bb-search]").forEach(b=>b.addEventListener("click",()=>searchFor(b.dataset.bbSearch)));
 document.getElementById("bbSurprise")?.addEventListener("click",()=>{searchFor(choices[Math.floor(Math.random()*choices.length)]);});
-window.addEventListener("load",()=>{if(!document.hidden&&!compact.matches&&!reduce.matches)setTimeout(()=>burst(45),1200)},{once:true});
+window.addEventListener("load",()=>{if(!document.hidden&&!reduce.matches)setTimeout(()=>burst(compact.matches?65:100),1000)},{once:true});
 })();
 </script></body></html>
