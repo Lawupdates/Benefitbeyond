@@ -5,6 +5,8 @@ on:
     paths:
       - 'index.html'
       - 'estate-planning.html'
+      - 'arizona-free-advance-directives.html'
+      - 'free-caregiver-planning-checklist.html'
       - 'sitemap.xml'
       - 'robots.txt'
       - 'healthcare.html'
@@ -25,6 +27,6 @@ jobs:
       - name: Submit updated URLs to IndexNow
         run: |
           cat > /tmp/indexnow.json <<'JSON'
-          {"host":"genieofbenefits.com","key":"d61d44d3c75ffed4decd516e03060790","keyLocation":"https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt","urlList":["https://genieofbenefits.com/","https://genieofbenefits.com/estate-planning.html","https://genieofbenefits.com/healthcare.html","https://genieofbenefits.com/benefits-supercenter.html"]}
+          {"host":"genieofbenefits.com","key":"d61d44d3c75ffed4decd516e03060790","keyLocation":"https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt","urlList":["https://genieofbenefits.com/","https://genieofbenefits.com/estate-planning.html","https://genieofbenefits.com/arizona-free-advance-directives.html","https://genieofbenefits.com/free-caregiver-planning-checklist.html","https://genieofbenefits.com/healthcare.html","https://genieofbenefits.com/benefits-supercenter.html"]}
           JSON
           curl --silent --show-error --fail-with-body --max-time 25 -X POST -H 'Content-Type: application/json; charset=utf-8' --data-binary @/tmp/indexnow.json https://api.indexnow.org/indexnow -w '\nIndexNow HTTP status: %{http_code}\n'
