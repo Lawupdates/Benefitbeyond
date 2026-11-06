@@ -1,0 +1,30 @@
+name: Notify IndexNow of updated pages
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'estate-planning.html'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'healthcare.html'
+      - 'benefits-supercenter.html'
+      - '.github/workflows/indexnow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Allow hosting deployment to finish
+        run: sleep 45
+      - name: Check public verification key
+        run: |
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 "https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt"
+      - name: Submit updated URLs to IndexNow
+        run: |
+          cat > /tmp/indexnow.json <<'JSON'
+          {"host":"genieofbenefits.com","key":"d61d44d3c75ffed4decd516e03060790","keyLocation":"https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt","urlList":["https://genieofbenefits.com/","https://genieofbenefits.com/estate-planning.html","https://genieofbenefits.com/healthcare.html","https://genieofbenefits.com/benefits-supercenter.html"]}
+          JSON
+          curl --silent --show-error --fail-with-body --max-time 25 -X POST -H 'Content-Type: application/json; charset=utf-8' --data-binary @/tmp/indexnow.json https://api.indexnow.org/indexnow -w '\nIndexNow HTTP status: %{http_code}\n'
