@@ -2,7 +2,7 @@
 (function(){
   if(!/^(genieofbenefits\.com|www\.genieofbenefits\.com|benefitbeyond\.vercel\.app)$/.test(location.hostname))return;
   if(!/\/api\//.test(location.pathname))fetch('/api/visit',{method:'POST',credentials:'same-origin',keepalive:true}).catch(()=>{});
-  if(new URLSearchParams(location.search).get('owner')!=='1')return;
+  const secret=new URLSearchParams(location.hash.slice(1)).get('owner'); if(!secret)return;
   const panel=document.createElement('section');
   panel.id='genie-owner-traffic';panel.setAttribute('aria-label','Private owner visitor dashboard');
   Object.assign(panel.style,{position:'fixed',right:'12px',bottom:'12px',zIndex:'999999',width:'min(340px,calc(100vw - 24px))',maxHeight:'80vh',overflow:'auto',background:'#101a42',color:'#fff',padding:'18px',borderRadius:'18px',boxShadow:'0 12px 45px #0007',font:'15px/1.5 system-ui'});
