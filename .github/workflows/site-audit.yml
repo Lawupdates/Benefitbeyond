@@ -12,5 +12,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check api/visit.js
+          node --check api/visitors.js
+          node --check assets/owner-traffic.js
       - name: Check static pages and assets
         run: node scripts/verify-site.mjs
