@@ -1,32 +1,68 @@
-name: Notify IndexNow of updated pages
+name: Submit individual main pages to IndexNow
 on:
   push:
     branches: [main]
     paths:
-      - 'index.html'
-      - 'estate-planning.html'
-      - 'arizona-free-advance-directives.html'
-      - 'free-caregiver-planning-checklist.html'
+      - '*.html'
       - 'sitemap.xml'
       - 'robots.txt'
-      - 'healthcare.html'
-      - 'benefits-supercenter.html'
       - '.github/workflows/indexnow.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  notify:
+  submit:
     runs-on: ubuntu-latest
     steps:
-      - name: Allow hosting deployment to finish
+      - name: Give Vercel time to deploy
         run: sleep 45
-      - name: Check public verification key
+      - name: Verify domain key and sitemap
         run: |
-          curl --fail --silent --show-error --retry 3 --retry-delay 5 "https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt"
-      - name: Submit updated URLs to IndexNow
+          set -euo pipefail
+          actual=$(curl --fail --silent --show-error --location --retry 3 --retry-delay 5 "https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt")
+          test "$actual" = "d61d44d3c75ffed4decd516e03060790"
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 5 "https://genieofbenefits.com/sitemap.xml" -o /tmp/site-sitemap.xml
+      - name: Extract each main page from the live sitemap
         run: |
-          cat > /tmp/indexnow.json <<'JSON'
-          {"host":"genieofbenefits.com","key":"d61d44d3c75ffed4decd516e03060790","keyLocation":"https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt","urlList":["https://genieofbenefits.com/","https://genieofbenefits.com/estate-planning.html","https://genieofbenefits.com/arizona-free-advance-directives.html","https://genieofbenefits.com/free-caregiver-planning-checklist.html","https://genieofbenefits.com/healthcare.html","https://genieofbenefits.com/benefits-supercenter.html"]}
-          JSON
-          curl --silent --show-error --fail-with-body --max-time 25 -X POST -H 'Content-Type: application/json; charset=utf-8' --data-binary @/tmp/indexnow.json https://api.indexnow.org/indexnow -w '\nIndexNow HTTP status: %{http_code}\n'
+          python3 - <<'PY' > /tmp/indexnow-urls.txt
+          import xml.etree.ElementTree as ET
+          root=ET.parse('/tmp/site-sitemap.xml').getroot()
+          ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls=[e.text.strip() for e in root.findall('s:url/s:loc',ns) if e.text and e.text.strip().startswith('https://genieofbenefits.com/')]
+          for url in dict.fromkeys(urls):
+              print(url)
+          PY
+          test -s /tmp/indexnow-urls.txt
+          echo "URLs queued separately:"
+          cat /tmp/indexnow-urls.txt
+      - name: Submit and record each URL separately
+        shell: bash
+        run: |
+          set -uo pipefail
+          ok=0
+          failed=0
+          while IFS= read -r url; do
+            [ -n "$url" ] || continue
+            page_status=$(curl -L -sS -o /dev/null -w '%{http_code}' --max-time 20 "$url" || true)
+            if [ "$page_status" != "200" ]; then
+              echo "::warning::Skip $url (website HTTP $page_status)"
+              failed=$((failed+1))
+              continue
+            fi
+            status=$(curl -G -sS -o /tmp/indexnow-response.txt -w '%{http_code}' --max-time 30 --retry 2 --retry-delay 3 \
+              --data-urlencode "url=$url" \
+              --data-urlencode "key=d61d44d3c75ffed4decd516e03060790" \
+              --data-urlencode "keyLocation=https://genieofbenefits.com/d61d44d3c75ffed4decd516e03060790.txt" \
+              "https://api.indexnow.org/indexnow" || true)
+            if [ "$status" = "200" ] || [ "$status" = "202" ]; then
+              echo "IndexNow accepted HTTP $status: $url"
+              ok=$((ok+1))
+            else
+              echo "::warning::IndexNow HTTP $status: $url"
+              cat /tmp/indexnow-response.txt || true
+              failed=$((failed+1))
+            fi
+            sleep 1
+          done < /tmp/indexnow-urls.txt
+          echo "Individual IndexNow submissions accepted: $ok; failed/skipped: $failed" | tee -a "$GITHUB_STEP_SUMMARY"
+          [ "$failed" -eq 0 ]
