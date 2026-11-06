@@ -81,4 +81,4 @@ $('importButton').addEventListener('click',()=>$('importFile').click());
 $('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;if(f.size>150000){$('feedback').textContent='Backup too large (limit 150 KB).';return}try{const data=JSON.parse(await f.text());if(!Array.isArray(data.tasks)||data.tasks.length>MAX)throw Error('Invalid backup');const fresh=data.tasks.map(sanitize).filter(Boolean);if(!confirm('Replace the current local planner with '+fresh.length+' restored tasks?'))return;tasks=fresh;store();render();$('feedback').textContent='Backup restored on this browser.'}catch(err){$('feedback').textContent='Could not import this backup.'}finally{e.target.value=''}});
 render();
 })();
-</script></body></html>
+</script><script defer src="/assets/site-accessibility.js"></script></body></html>
